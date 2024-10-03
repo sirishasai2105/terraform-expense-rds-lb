@@ -1,6 +1,7 @@
 module "app-lb" {
   source = "terraform-aws-modules/alb/aws"
-
+  internal = true
+  enable_deletion_protection = false
   name    = local.name
   vpc_id  = data.aws_ssm_parameter.vpc_id.id
   subnets = local.private-subnet-id
@@ -32,20 +33,37 @@ resource "aws_lb_listener" "app-lb" {
   }
 
 
+# module "records" {
+#   source  = "terraform-aws-modules/route53/aws//modules/records"
+#   version = "~> 3.0"
+
+#   zone_name = var.zone_name
+#   records = [
+#     {
+#       name    = "*.app-dev"
+#       type    = "A"
+#       ttl     = 1
+#       records = [
+#          module.app-lb.dns_name,
+#       ]
+#     },
+#   ]
+
+# }
+
 module "records" {
   source  = "terraform-aws-modules/route53/aws//modules/records"
-  version = "~> 3.0"
 
-  zone_name = var.zone_name
+  zone_name = var.zone_name #daws81s.online
   records = [
     {
-      name    = "*.app-dev"
-      type    = "CNAME"
-      ttl     = 1
-      records = [
-         module.app-lb.dns_name,
-      ]
-    },
+      name    = "*.app-${var.environment}" # *.app-dev
+      type    = "A"
+      alias   = {
+        name    = module.app-lb.dns_name
+        zone_id = module.app-lb.zone_id # This belongs ALB internal hosted zone, not ours
+      }
+      allow_overwrite = true
+    }
   ]
-
 }
