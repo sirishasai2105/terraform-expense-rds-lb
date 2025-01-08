@@ -12,6 +12,7 @@ module "db" {
   #db credential information
   db_name  = "transactions"
   username = "root"
+  manage_master_user_password = false
   password = "ExpenseApp1"
   port     = "3306"
 
@@ -83,8 +84,9 @@ module "records" {
       type    = "CNAME"  # Use 'A' if pointing to an IP, 'CNAME' if pointing to another domain
       ttl     = 1
       records = [
-        module.db.db_instance_arn,
+        module.db.db_instance_address,
       ]
+      allow_overwrite = true
     }
   ]
 }

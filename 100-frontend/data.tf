@@ -2,16 +2,16 @@ data "aws_ssm_parameter" "vpc_id" {
   name = "/expense/dev/vpc_id"
 }
 
-data "aws_ssm_parameter" "private_subnet_id" {
-    name  = "/expense/dev/private_subnet_ids"
+data "aws_ssm_parameter" "public_subnet_id" {
+    name  = "/expense/dev/public_subnet_ids"
 }
 
-data "aws_ssm_parameter" "backend_sg_id" {
-    name  = "/${var.project_name}/${var.environment}/backend_sg_id" 
+data "aws_ssm_parameter" "frontend_sg_id" {
+    name  = "/${var.project_name}/${var.environment}/frontend_sg_id" 
 }
 
 data "aws_ssm_parameter" "listener_arn" {
-  name  = "/${var.project_name}/${var.environment}/app-lb-listerner-arn"
+  name  = "/${var.project_name}/${var.environment}/web-lb-listerner-arn"
 }
 
 

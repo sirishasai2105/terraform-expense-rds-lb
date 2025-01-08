@@ -49,7 +49,16 @@ resource "aws_ssm_parameter" "app_lb_sg_id" {
   name  = "/${var.project_name}/${var.environment}/app_lb_sg_id"
   type  = "String"
   value = module.app-lb.sg_id
-  # lifecycle {
-  #   prevent_destroy = true  # Prevents accidental deletion
-  # }
+}
+
+resource "aws_ssm_parameter" "vpn_sg" {
+  name  = "/${var.project_name}/${var.environment}/vpn_sg"
+  type  = "String"
+  value = module.vpn_sg.sg_id
+}
+
+resource "aws_ssm_parameter" "web_lb_sg_id" {
+  name  = "/${var.project_name}/${var.environment}/web_lb_sg_id"
+  type  = "String"
+  value = module.web-lb.sg_id
 }

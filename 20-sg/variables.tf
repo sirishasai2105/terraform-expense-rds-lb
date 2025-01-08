@@ -30,6 +30,16 @@ variable "app_lb_tags" {
     default = "app-lb"
 }
 
+variable "vpn_tags" {
+    default = "vpn"
+}
+
+variable "web_lb_tags" {
+    default = "web-lb"
+}
+
+
+
 
 
 
